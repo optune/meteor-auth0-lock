@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Landing page test</title>
@@ -12,6 +13,7 @@
   <body>
     <button onclick="showLogin()">Log in</button>
     <button onclick="showSignup()">Sign up</button>
+    <button onclick="closeLock()">Close</button>
 
     <div id="lock-container"><br /></div>
 
@@ -22,6 +24,11 @@
 
       var showSignup = function () {
         Auth0.showLock({ type: 'signup', containerId: 'lock-container' })
+      }
+
+      var closeLock = function () {
+        console.log('Close lock')
+        Auth0.closeLock({ containerId: 'lock-container' })
       }
     </script>
   </body>

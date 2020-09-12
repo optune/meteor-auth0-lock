@@ -1,7 +1,9 @@
-import Random from 'meteor-random'
-import { Base64 } from './Base64'
+import { Random } from './utils/Random'
+import { Base64 } from './utils/Base64'
 
 Auth0 = {}
+
+let auht0Lock
 
 const Auth0ClientId = process.env.AUTH0_CLIENT_ID
 const Auth0Domain = process.env.AUTH0_DOMAIN
@@ -24,7 +26,6 @@ Auth0._getCookie = ({ migrationData }) => {
     process.env.COOKIE_ORIGIN
   }; max-age=${5 * 60}; path=/;`
 
-  console.log('COOKIE', cookie)
   return cookie
 }
 
@@ -99,15 +100,29 @@ Auth0.showLock = (options = { type: 'login' }) => {
     rememberLastLogin: true,
     languageDictionary,
     theme,
-    closable: false,
+    closable: true,
     container: options.containerId,
     allowLogin: isLogin,
     allowSignUp: isSignup,
   }
 
   // Initialize lock
-  const lock = new Auth0Lock(Auth0ClientId, Auth0Domain, lockOptions)
+  auht0Lock = new Auth0Lock(Auth0ClientId, Auth0Domain, lockOptions)
 
   // Show lock
-  lock.show()
+  auht0Lock.show()
+}
+
+Auth0.closeLock = (options = {}) => {
+  auht0Lock = null
+
+  if (options.containerId) {
+    // Get the container element
+    var container = document.getElementById(options.containerId)
+
+    // As long as <ul> has a child node, remove it
+    if (container.hasChildNodes()) {
+      container.removeChild(container.firstChild)
+    }
+  }
 }
