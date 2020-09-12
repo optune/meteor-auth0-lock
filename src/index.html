@@ -18,17 +18,19 @@
     <div id="lock-container"><br /></div>
 
     <script type="text/javascript">
+      var containerId = 'lock-container'
+
       var showLogin = function () {
-        Auth0.showLock({ type: 'login', containerId: 'lock-container' })
+        Auth0.showLock({ type: 'login', containerId })
       }
 
       var showSignup = function () {
-        Auth0.showLock({ type: 'signup', containerId: 'lock-container' })
+        Auth0.showLock({ type: 'signup', containerId })
       }
 
       var closeLock = function () {
         console.log('Close lock')
-        Auth0.closeLock({ containerId: 'lock-container' })
+        Auth0.closeLock({ containerId })
       }
     </script>
   </body>
