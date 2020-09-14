@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/Joel/.nvm/versions/node/v12.13.0/bin/node /usr/local/bin/yarn remove parce-bundler
+  /Users/Joel/.nvm/versions/node/v12.13.0/bin/node /usr/local/bin/yarn lint
 
 PATH: 
   /Users/Joel/.nvm/versions/node/v12.13.0/bin:/Library/Java/apache-maven-3.3.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/git/bin:/Applications/Xamarin Workbooks.app/Contents/SharedSupport/path-bin:/Users/Joel/Library/Android/sdk/tools:/Users/Joel/Library/Android/sdk/platform-tools
@@ -16,11 +16,15 @@ Platform:
 npm manifest: 
   {
     "name": "meteor-auth0-lock",
-    "version": "1.0.0",
-    "description": "Use auht0 lock widget to log into a meteor app from another origin (e.g. landing page)",
+    "version": "0.1.0",
+    "description": "Use the Auth0 lock widget to log into a meteor app from another origin (e.g. landing page)",
     "main": "dist/index.js",
+    "files": [
+        "lib/index.js"      
+    ],
     "scripts": {
       "test": "test",
+      "lint": "npx prettier --write src/*.(js|jsx)",
       "start": "parcel src/index.html -p 3010",
       "build": "parcel build src/index.html"
     },
@@ -40,10 +44,9 @@ npm manifest:
       "url": "https://github.com/optune/meteor-auth0-lock/issues"
     },
     "homepage": "https://github.com/optune/meteor-auth0-lock#readme",
-    "dependencies": {
-      "parcel-bundler": "^1.12.4"
-    },
+    "dependencies": {},
     "devDependencies": {
+      "parcel-bundler": "^1.12.4",
       "prettier": "^2.1.1"
     }
   }
@@ -4525,9 +4528,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
 
 Trace: 
-  Error: This module isn't specified in a manifest.
-      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
-      at Object.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:60179:15)
-      at Generator.next (<anonymous>)
-      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
+  Error: Command failed.
+  Exit code: 2
+  Command: sh
+  Arguments: -c npx prettier --write src/*.(js|jsx)
+  Directory: /Users/Joel/Documents/Projects/@optune/meteor-auth0-lock
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30822:17)
+      at ChildProcess.emit (events.js:210:5)
+      at maybeClose (internal/child_process.js:1021:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:283:5)
