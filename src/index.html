@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Landing page test</title>
+    <title>Test page to load script in browser</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <script src="https://cdn.auth0.com/js/lock/11.20/lock.min.js"></script>
-    <!-- <script type="text/javascript" src="https://d2cu5zba7j2d0m.cloudfront.net/meteor-auth0-lock/1.0.1/onescreener-lock.min.js"></script>-->
     <script type="text/javascript" src="index.js"></script>
   </head>
 
@@ -18,19 +17,39 @@
     <div id="lock-container"><br /></div>
 
     <script type="text/javascript">
-      var containerId = 'lock-container'
+      var options = {
+        auth0: {
+          clientId: 'isWcakHuMWoQlrEIdPhUpb-lo9VOnRzJ',
+          domain: 'auth-dev.onescreener.com',
+          rootUrl: 'http://localhost:3000',
+          callbackUrl: 'http://localhost:3000',
+          origin: 'localhost',
+        },
+      
+        containerId: 'lock-container',
+        languageDictionary: {
+          title: 'Log in',
+          signUpTitle: 'Get started for free',
+        },
+        theme: {
+          logo:
+            'https://res.cloudinary.com/optune-me/image/upload/c_pad,h_58,w_200/v1558014130/onescreener-v2/app/logo-onescreener.png',
+          primaryColor: '#27E200',
+        },
+      }
+
 
       var showLogin = function () {
-        Auth0.showLock({ type: 'login', containerId })
+        Auth0.showLock({ type: 'login', ...options })
       }
 
       var showSignup = function () {
-        Auth0.showLock({ type: 'signup', containerId })
+        Auth0.showLock({ type: 'signup', ...options })
       }
 
       var closeLock = function () {
         console.log('Close lock')
-        Auth0.closeLock({ containerId })
+        Auth0.closeLock(options)
       }
     </script>
   </body>

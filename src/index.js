@@ -9,11 +9,7 @@ const Auth0ClientId = process.env.AUTH0_CLIENT_ID
 const Auth0Domain = process.env.AUTH0_DOMAIN
 const LoginUrl = process.env.LOGIN_URL
 
-const theme = {
-  logo:
-    'https://res.cloudinary.com/optune-me/image/upload/c_pad,h_58,w_200/v1558014130/onescreener-v2/app/logo-onescreener.png',
-  primaryColor: '#27E200',
-}
+
 
 // Source: https://github.com/meteor/meteor/blob/master/packages/reload/reload.js
 //
@@ -72,20 +68,31 @@ Auth0._stateParam = (credentialToken, redirectUrl) => {
 // @params loginUrl: Login base url
 // @params containerId: Id of the html element the lock widget shall be shown inline. If not set a overlay will be shown
 Auth0.showLock = (options = { type: 'login' }) => {
+  const { type, auth0, languageDictionary, theme } = options
+
+  // Check configuration
+  let callbackUrl
+  if (!auth0) {
+    throw 'Auth0 configuration options not set'
+  } else {
+    if (!auth0.clientId) throw 'Auth0 client id not set'
+    if (!auth0.domain) throw 'Auth0 domain not set'
+    if (!auth0.rootUrl) throw 'The root url of your target application is not set'
+    if (!auth0.origin) throw 'Auth0 origin not set'
+
+    callbackUrl = auth0.callbackUrl || auth0.rootUrl
+  }
+
+
   const credentialToken = Random.secret()
   Auth0._saveDataForRedirect({ credentialToken })
 
-  const isLogin = options.type === 'login'
-  const isSignup = options.type === 'signup'
-  let redirectUrl = `${LoginUrl}/_oauth/auth0`
+  const isLogin = type === 'login'
+  const isSignup = type === 'signup'
+  let redirectUrl = `${auth0.rootUrl}/_oauth/auth0`
 
-  if (options.type) {
-    redirectUrl = `${redirectUrl}#${options.type}`
-  }
-
-  const languageDictionary = {
-    title: isLogin && 'Log in',
-    signUpTitle: 'Get started for free',
+  if (type) {
+    redirectUrl = `${redirectUrl}#${type}`
   }
 
   // Combine lock options
@@ -93,7 +100,7 @@ Auth0.showLock = (options = { type: 'login' }) => {
     auth: {
       redirectUrl,
       params: {
-        state: Auth0._stateParam(credentialToken, `${LoginUrl}/`),
+        state: Auth0._stateParam(credentialToken, `${callbackUrl}/`),
       },
     },
     allowedConnections: (isSignup && ['Username-Password-Authentication']) || null,
@@ -114,7 +121,7 @@ Auth0.showLock = (options = { type: 'login' }) => {
 }
 
 Auth0.closeLock = (options = {}) => {
-  auht0Lock = null
+  auht0Lock = undefined
 
   if (options.containerId) {
     // Get the container element
