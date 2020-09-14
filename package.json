@@ -2,7 +2,7 @@
   "name": "meteor-auth0-lock",
   "version": "0.1.0",
   "description": "Use the Auth0 lock widget to log into a meteor app from another origin (e.g. landing page)",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "files": [
       "lib/index.js"      
   ],
@@ -10,7 +10,8 @@
     "test": "test",
     "lint": "npx prettier --write src",
     "start": "parcel src/index.html -p 3010",
-    "build": "parcel build src/index.html"
+    "sandbox": "rm -r lib && parcel build src/index.js -d sandbox --target browser --no-source-maps",
+    "build": "rm -r lib && parcel build src/index.js -d lib --target browser --no-source-maps"
   },
   "repository": {
     "type": "git",
