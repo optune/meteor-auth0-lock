@@ -26,7 +26,7 @@ Auth0._checkAuth0Params = ({ options }) => {
     if (!auth0.rootUrl) throw 'The root url of your target application is not set'
     if (!auth0.origin) throw 'Auth0 origin not set'
 
-    callbackUrl = auth0.path > '' ? `${auth0.rootUrl}${path}` : `${auth0.rootUrl}/`
+    callbackUrl = auth0.path > '' ? `${auth0.rootUrl}${auth0.path}` : `${auth0.rootUrl}/`
   }
   return { auth0, callbackUrl }
 }
