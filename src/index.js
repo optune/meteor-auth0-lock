@@ -154,7 +154,7 @@ Auth0.authenticate = (options = {}) => {
     auth0.clientId +
     '&state=' +
     Auth0._stateParam(credentialToken, callbackUrl) +
-    `&redirect_uri=${auth0.rootUrl}/_oauth/auth0'`
+    `&redirect_uri=${auth0.rootUrl}/_oauth/auth0`
 
   window.location = auth0authorizationUrl
 }
