@@ -1,7 +1,7 @@
 {
   "name": "@onescreener/meteor-auth0-lock",
   "private": false,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Use the Auth0 lock widget to log into a meteor app from another origin (e.g. landing page)",
   "main": "lib/index.js",
   "files": [
