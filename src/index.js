@@ -5,10 +5,6 @@ export const Auth0 = {}
 
 let auht0Lock
 
-const Auth0ClientId = process.env.AUTH0_CLIENT_ID
-const Auth0Domain = process.env.AUTH0_DOMAIN
-const LoginUrl = process.env.LOGIN_URL
-
 // Source: https://github.com/meteor/meteor/blob/master/packages/reload/reload.js
 //
 // This logic for sessionStorage detection is based on browserstate/history.js
@@ -123,7 +119,7 @@ Auth0.showLock = (options = { type: 'login' }) => {
   }
 
   // Initialize lock
-  auht0Lock = new Auth0Lock(Auth0ClientId, Auth0Domain, lockOptions)
+  auht0Lock = new Auth0Lock(auth0.clientId, auth0.domain, lockOptions)
 
   // Show lock
   auht0Lock.show()
@@ -142,9 +138,12 @@ Auth0.authenticate = (options = {}) => {
   const credentialToken = Random.secret()
   Auth0._saveDataForRedirect({ credentialToken })
 
-  let redirectUrl = `${auth0.rootUrl}/_oauth/auth0`
+  let redirectUrl = `${auth0.rootUrl}/_oauth/auth0#login`
 
   redirectUrl = `${redirectUrl}#login`
+
+  
+
 
   const auth0authorizationUrl =
     `https://${auth0.domain}/authorize/` +
@@ -154,9 +153,34 @@ Auth0.authenticate = (options = {}) => {
     auth0.clientId +
     '&state=' +
     Auth0._stateParam(credentialToken, callbackUrl) +
-    `&redirect_uri=${auth0.rootUrl}/_oauth/auth0`
+    `&redirect_uri=${redirectUrl}`
 
-  window.location = auth0authorizationUrl
+// Combine lock options
+  const lockOptions = {
+    auth: {
+      redirectUrl,
+      params: {
+        state: Auth0._stateParam(credentialToken, callbackUrl)
+      }
+    },
+    allowedConnections: (isSignup && ['Username-Password-Authentication']) || null,
+    rememberLastLogin: true,
+    languageDictionary,
+    theme,
+    closable: true,
+    allowLogin: isLogin,
+    allowSignUp: isSignup
+  }
+
+    // Initialize lock
+  auht0Lock = new Auth0Lock(auth0.clientId, auth0.domain, lockOptions)
+
+  auth0Lock.checkSession({}, (error, result) => {
+    console.log('*** CHECK SESSION ****')
+    if (error) console.log('--> ERROR', error) 
+    console.log('--> RESULT', result)
+  })
+  // window.location = auth0authorizationUrl
 }
 
 // Close auth0 lock
