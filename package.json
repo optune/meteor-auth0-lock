@@ -11,7 +11,7 @@
     "test": "test",
     "lint": "npx prettier --write src",
     "start": "parcel src/index.html -p 3010",
-    "build": "rm -r -f lib && parcel build src/index.js -d lib --target browser --no-source-maps"
+    "build": "rm -r -f lib && parcel build src/index.js -d lib --target browser --no-source-maps && npm version minor"
   },
   "repository": {
     "type": "git",
