@@ -69,8 +69,6 @@ Auth0._stateParam = (credentialToken, redirectUrl) => {
     isCordova: false
   }
 
-  console.log(state)
-
   state.redirectUrl = redirectUrl || '' + window.location
 
   // Encode base64 as not all login services URI-encode the state
@@ -140,7 +138,7 @@ Auth0.showLock = (options = { type: 'login' }) => {
 Auth0.authenticate = (options = {}) => {
   // Check configuration
   const { auth0, callbackUrl } = Auth0._checkAuth0Params({ options })
-
+  
   const credentialToken = Random.secret()
   Auth0._saveDataForRedirect({ credentialToken })
 
