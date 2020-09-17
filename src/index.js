@@ -138,7 +138,7 @@ Auth0.showLock = (options = { type: 'login' }) => {
 Auth0.authenticate = (options = {}) => {
   // Check configuration
   const { auth0, callbackUrl } = Auth0._checkAuth0Params({ options })
-  
+
   const credentialToken = Random.secret()
   Auth0._saveDataForRedirect({ credentialToken })
 
@@ -156,9 +156,7 @@ Auth0.authenticate = (options = {}) => {
     Auth0._stateParam(credentialToken, callbackUrl) +
     `&redirect_uri=${auth0.rootUrl}/_oauth/auth0'`
 
-  console.log('Auhtenticate', auth0authorizationUrl)
-
-  // window.location = auth0authorizationUrl
+  window.location = auth0authorizationUrl
 }
 
 // Close auth0 lock
