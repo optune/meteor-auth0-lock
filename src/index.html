@@ -13,7 +13,6 @@
     <button onclick="showLogin()">Log in</button>
     <button onclick="showSignup()">Sign up</button>
     <button onclick="closeLock()">Close</button>
-    <button onclick="authenticate()">Authenticate</button>
 
     <div id="lock-container"><br /></div>
 
@@ -46,10 +45,6 @@
 
       var showSignup = function () {
         Auth0.showLock({ type: 'signup', ...options })
-      }
-
-      var authenticate = function () {
-        Auth0.authenticate(options)
       }
 
       var closeLock = function () {

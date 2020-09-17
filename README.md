@@ -41,7 +41,7 @@ const options = {
     clientId: 'isWcakHuMWoQlrEIdPhUpb-lo9VOnRzJ',
     domain: 'auth-dev.onescreener.com',
     rootUrl: 'http://localhost:3000',
-    callbackUrl: 'http://localhost:3000',
+    path: '/user/profile',
     origin: 'localhost', // Use for cookie control access make
   },
 

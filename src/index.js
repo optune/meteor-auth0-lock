@@ -3,7 +3,7 @@ import { Base64 } from './utils/Base64'
 
 export const Auth0 = {}
 
-let auht0Lock
+let auth0Lock
 
 // Source: https://github.com/meteor/meteor/blob/master/packages/reload/reload.js
 //
@@ -119,74 +119,16 @@ Auth0.showLock = (options = { type: 'login' }) => {
   }
 
   // Initialize lock
-  auht0Lock = new Auth0Lock(auth0.clientId, auth0.domain, lockOptions)
+  auth0Lock = new Auth0Lock(auth0.clientId, auth0.domain, lockOptions)
 
   // Show lock
-  auht0Lock.show()
-}
-
-// @params auth0 (required): Auth0 configuration object
-//   - clientId: Auth0 client id
-//   - domain: Auth0 domain
-//   - rootUrl: Base url of application
-//   - origin: Origin settings of application for cookies
-//   - path: Path added to root url after succesful login. If not set, same as root url.
-Auth0.authenticate = (options = {}) => {
-  // Check configuration
-  const { auth0, callbackUrl } = Auth0._checkAuth0Params({ options })
-
-  const credentialToken = Random.secret()
-  Auth0._saveDataForRedirect({ credentialToken })
-
-  let redirectUrl = `${auth0.rootUrl}/_oauth/auth0#login`
-
-  redirectUrl = `${redirectUrl}#login`
-
-  
-
-
-  const auth0authorizationUrl =
-    `https://${auth0.domain}/authorize/` +
-    '?scope=openid%20profile%20email' +
-    '&response_type=code' +
-    '&client_id=' +
-    auth0.clientId +
-    '&state=' +
-    Auth0._stateParam(credentialToken, callbackUrl) +
-    `&redirect_uri=${redirectUrl}`
-
-// Combine lock options
-  const lockOptions = {
-    auth: {
-      redirectUrl,
-      params: {
-        state: Auth0._stateParam(credentialToken, callbackUrl)
-      }
-    },
-    allowedConnections: (isSignup && ['Username-Password-Authentication']) || null,
-    rememberLastLogin: true,
-    languageDictionary,
-    theme,
-    closable: true,
-    allowLogin: isLogin,
-    allowSignUp: isSignup
-  }
-
-    // Initialize lock
-  auht0Lock = new Auth0Lock(auth0.clientId, auth0.domain, lockOptions)
-
-  auth0Lock.checkSession({}, (error, result) => {
-    console.log('*** CHECK SESSION ****')
-    if (error) console.log('--> ERROR', error) 
-    console.log('--> RESULT', result)
-  })
-  // window.location = auth0authorizationUrl
+  auth0Lock.show()
 }
 
 // Close auth0 lock
 // @params Id of the html element the lock widget has been added inline.
 Auth0.closeLock = (options = {}) => {
-  auht0Lock = undefined
+  auth0Lock = undefined
 
   if (options.containerId) {
     // Get the container element
